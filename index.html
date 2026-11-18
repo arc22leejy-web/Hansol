@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인하대학교 X 한솔아카데미 | 동계특강 신청</title>
+<meta name="description" content="인하대학교 X 한솔아카데미 동계특강 신청 페이지">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#f3f5f9; --card:#fff; --ink:#111a2e; --sub:#5b667a; --line:#e2e6ee;
+  --navy:#12306e; --navy-soft:#eaf0fb; --accent:#e4572e; --ok:#12805c; --err:#d22f2f;
+  --r:16px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.55;padding-bottom:110px;word-break:keep-all}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+
+/* 헤더 */
+.hero{background:linear-gradient(160deg,#0d2251 0%,#12306e 55%,#1d4aa3 100%);color:#fff;padding:44px 0 68px}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;padding:5px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;margin-bottom:16px}
+.hero h1{margin:0;font-size:clamp(26px,6.4vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.hero h1 .x{font-weight:300;opacity:.7;margin:0 .15em}
+.hero p{margin:12px 0 0;opacity:.85;font-size:15px}
+main{margin-top:-40px}
+
+/* 카드 */
+.card{background:var(--card);border-radius:var(--r);padding:22px 20px;margin-bottom:14px;box-shadow:0 1px 2px rgba(17,26,46,.05),0 8px 24px rgba(17,26,46,.05)}
+.card h2{margin:0 0 4px;font-size:19px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.card h2 .no{font-size:12px;font-weight:700;color:var(--navy);background:var(--navy-soft);border-radius:8px;padding:3px 8px}
+.card .desc{margin:0 0 16px;color:var(--sub);font-size:14px}
+
+/* 입력 */
+.field{margin-top:16px}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.field input[type=text],.field input[type=tel]{width:100%;height:50px;border:1.5px solid var(--line);border-radius:12px;padding:0 14px;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.field input:focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(18,48,110,.12)}
+.field input::placeholder{color:#a5adbb}
+.field.bad input{border-color:var(--err)}
+.hint{font-size:13px;color:var(--sub);margin-top:6px}
+.hint.warn{color:#8a4b00;background:#fff6e5;border-radius:10px;padding:8px 10px}
+.msg{font-size:13px;color:var(--err);margin-top:6px;display:none}
+.bad .msg,.msg.show{display:block}
+.row{display:flex;gap:8px}
+.row input{flex:1;min-width:0}
+.btn-line{height:50px;padding:0 16px;border:1.5px solid var(--navy);color:var(--navy);background:#fff;border-radius:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn-line:hover{background:var(--navy-soft)}
+
+/* 과목 */
+.subject{border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-top:12px;transition:border-color .15s,background .15s}
+.subject.on{border-color:var(--navy);background:#fbfcff}
+.subject-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
+.subject-head h3{margin:0;font-size:17px;font-weight:700}
+.subject-head .picked{font-size:14px;color:var(--sub);text-align:right}
+.subject-head .picked b{color:var(--navy);font-size:16px}
+.seg{display:flex;background:#eef1f6;border-radius:12px;padding:4px;gap:2px}
+.seg button{flex:1;border:0;background:transparent;border-radius:9px;height:40px;font-size:14px;font-weight:600;color:var(--sub);cursor:pointer;padding:0 4px}
+.seg button:disabled{color:#c3c9d4;cursor:not-allowed;text-decoration:line-through}
+.seg button[aria-pressed=true]{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(17,26,46,.15)}
+.mode-note{font-size:12.5px;color:var(--sub);margin:6px 2px 0}
+.scope{margin-top:12px}
+.scope-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 2px 6px}
+.scope-name{font-size:14px;font-weight:700}
+.scope-price{text-align:right;line-height:1.3}
+.scope-price .list{display:inline;font-size:12px;color:#98a1b1;text-decoration:line-through;margin-right:6px}
+.scope-price .off{font-size:12px;font-weight:700;color:var(--accent);margin-right:6px}
+.scope-price .sale{font-weight:700;font-variant-numeric:tabular-nums}
+.pkg{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;background:var(--navy-soft);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;color:var(--navy)}
+.opts{display:grid;gap:8px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;cursor:pointer;transition:border-color .12s,background .12s}
+.opt:hover{border-color:#b9c3d6}
+.opt[aria-pressed=true]{border-color:var(--navy);background:var(--navy-soft)}
+.opt .l{display:flex;align-items:center;gap:10px;font-weight:600}
+.opt .chk{width:20px;height:20px;border-radius:6px;border:1.5px solid #b9c3d6;background:#fff;flex:none;display:grid;place-items:center}
+.opt[aria-pressed=true] .chk{background:var(--navy);border-color:var(--navy)}
+.opt[aria-pressed=true] .chk::after{content:"";width:10px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translateY(-1px)}
+.opt .r{text-align:right;line-height:1.3}
+.opt .list{display:block;font-size:12px;color:#98a1b1;text-decoration:line-through}
+.opt .sale{font-weight:700;font-variant-numeric:tabular-nums}
+.opt .off{font-size:12px;font-weight:700;color:var(--accent);margin-right:6px}
+button:focus-visible,.consent input:focus-visible{outline:3px solid rgba(18,48,110,.45);outline-offset:2px}
+
+/* 신청 내역 */
+.sum-list{list-style:none;margin:0;padding:0}
+.sum-list li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.sum-list li span:last-child{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sum-empty{color:var(--sub);font-size:14px;padding:6px 0}
+.sum-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px}
+.sum-total .t{font-weight:700}
+.sum-total .v{font-size:22px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.sum-save{text-align:right;font-size:13px;color:var(--accent);font-weight:600}
+
+/* 동의 */
+.terms{background:#f6f8fb;border-radius:12px;padding:14px;font-size:13px;color:#3d475a}
+.terms dl{margin:0;display:grid;grid-template-columns:76px 1fr;gap:6px 10px}
+.terms dt{font-weight:700}.terms dd{margin:0}
+.consent{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-weight:600;cursor:pointer}
+.consent input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--navy);flex:none}
+
+/* 하단 바 */
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:20}
+.bar .wrap{display:flex;align-items:center;gap:14px}
+.bar .amt{flex:1;min-width:0;line-height:1.25}
+.bar .amt small{display:block;font-size:12px;color:var(--sub)}
+.bar .amt strong{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
+.bar .amt s{font-size:12px;color:#98a1b1;margin-left:6px}
+.btn{height:52px;padding:0 26px;border:0;border-radius:14px;background:var(--navy);color:#fff;font-weight:700;font-size:16px;cursor:pointer}
+.btn:hover{background:#0d2557}
+.btn:disabled{background:#9aa6bd;cursor:default}
+.alert{display:none;background:#fdecec;color:#a11d1d;border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:14px}
+.alert.show{display:block}
+
+/* 모달 */
+.modal{position:fixed;inset:0;background:rgba(10,18,36,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal.show{display:flex}
+.modal .box{background:#fff;border-radius:20px;max-width:380px;width:100%;padding:26px 22px 20px;text-align:center;animation:pop .18s ease-out}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.modal .badge{display:inline-block;background:#fff0ea;color:var(--accent);font-weight:700;font-size:13px;border-radius:999px;padding:5px 12px;margin-bottom:12px}
+.modal h4{margin:0 0 8px;font-size:19px}
+.modal p{margin:0;color:var(--sub);font-size:14.5px}
+.modal .cmp{margin:16px 0 0;background:#f6f8fb;border-radius:12px;padding:12px 14px;font-size:14px;text-align:left}
+.modal .cmp div{display:flex;justify-content:space-between;padding:3px 0;font-variant-numeric:tabular-nums}
+.modal .cmp .save{color:var(--accent);font-weight:700;border-top:1px dashed var(--line);margin-top:6px;padding-top:9px}
+.modal .btn{width:100%;margin-top:18px}
+.post-box{background:#fff;border-radius:16px;width:100%;max-width:480px;height:min(520px,80vh);display:flex;flex-direction:column;overflow:hidden}
+.post-box header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:700;border-bottom:1px solid var(--line)}
+.post-box header button{border:0;background:none;font-size:22px;cursor:pointer;line-height:1}
+#postEmbed{flex:1}
+
+/* 완료 */
+.done{text-align:center;padding:34px 20px}
+.done .ico{width:64px;height:64px;border-radius:50%;background:#e5f6ef;display:grid;place-items:center;margin:0 auto 16px}
+.done .ico::after{content:"";width:24px;height:12px;border:4px solid var(--ok);border-top:0;border-right:0;transform:rotate(-45deg) translateY(-3px)}
+.done h2{justify-content:center;font-size:22px;margin-bottom:8px}
+.done .sum-list,.done .sum-total{text-align:left}
+footer{color:#8891a3;font-size:12px;text-align:center;padding:10px 0 20px}
+[hidden]{display:none!important}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">동계특강 신청</span>
+    <h1>인하대학교<span class="x">X</span>한솔아카데미</h1>
+    <p>건축기사 · 건축설비기사 · 건설안전기사 · 산업안전기사</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <form id="form" novalidate>
+    <section class="card">
+      <h2><span class="no">01</span>신청자 정보</h2>
+      <p class="desc">수강 등록에 사용되는 정보입니다. 정확하게 입력해 주세요.</p>
+
+      <div class="field" id="f-name">
+        <label for="name">이름</label>
+        <input type="text" id="name" autocomplete="name" maxlength="20" placeholder="홍길동">
+        <div class="msg">이름을 입력해 주세요.</div>
+      </div>
+      <div class="field" id="f-birth">
+        <label for="birth">생년월일</label>
+        <input type="text" id="birth" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="예) 2003-01-15">
+        <div class="msg">생년월일 8자리를 정확히 입력해 주세요.</div>
+      </div>
+      <div class="field" id="f-phone">
+        <label for="phone">연락처</label>
+        <input type="tel" id="phone" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-1234-5678">
+        <div class="msg">휴대폰 번호를 정확히 입력해 주세요.</div>
+        <div class="hint warn">한솔아카데미 홈페이지 회원 정보의 휴대폰 번호와 <b>같은 번호</b>를 적어 주세요.</div>
+      </div>
+      <div class="field" id="f-hid">
+        <label for="hid">한솔아카데미 아이디</label>
+        <input type="text" id="hid" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40" placeholder="한솔아카데미 홈페이지 아이디">
+        <div class="msg">한솔아카데미 아이디를 입력해 주세요.</div>
+        <div class="hint">한솔아카데미 홈페이지 회원가입이 필수입니다. 아직 가입 전이라면 가입 후 신청해 주세요.</div>
+      </div>
+      <input class="hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    </section>
+
+    <section class="card" id="sec-items">
+      <h2><span class="no">02</span>강의 · 교재 선택</h2>
+      <p class="desc">과목마다 필기와 실기의 신청 형태를 각각 골라 주세요. 예를 들어 필기는 교재만, 실기는 강의로 신청할 수 있습니다. 강의에는 교재가 포함됩니다.</p>
+      <div id="subjects"></div>
+      <div class="msg" id="itemsMsg">신청할 강의 또는 교재를 하나 이상 선택해 주세요.</div>
+    </section>
+
+    <section class="card" id="sec-addr">
+      <h2><span class="no">03</span>주소</h2>
+      <p class="desc">교재 발송과 수강 등록에 사용할 주소를 입력해 주세요.</p>
+      <div class="field" id="f-addr">
+        <label for="zip">주소</label>
+        <div class="row">
+          <input type="text" id="zip" inputmode="numeric" maxlength="5" placeholder="우편번호" autocomplete="postal-code">
+          <button type="button" class="btn-line" id="zipBtn">우편번호 찾기</button>
+        </div>
+        <input type="text" id="addr" maxlength="120" placeholder="도로명 주소" autocomplete="address-line1" style="margin-top:8px">
+        <input type="text" id="addr2" maxlength="80" placeholder="상세 주소 (동 · 호수)" autocomplete="address-line2" style="margin-top:8px">
+        <div class="msg">우편번호와 주소를 입력해 주세요.</div>
+        <div class="hint" id="zipHint" hidden>주소 검색을 불러오지 못했어요. 직접 입력해 주세요.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="no">04</span>신청 내역</h2>
+      <p class="desc">선택한 내용과 금액을 확인해 주세요.</p>
+      <ul class="sum-list" id="sumList"></ul>
+      <div class="sum-empty" id="sumEmpty">아직 선택한 항목이 없습니다.</div>
+      <div class="sum-total"><span class="t">결제 예정 금액</span><span class="v" id="sumTotal">0원</span></div>
+      <div class="sum-save" id="sumSave"></div>
+    </section>
+
+    <section class="card" id="sec-consent">
+      <h2><span class="no">05</span>개인정보 수집 · 이용 동의</h2>
+      <p class="desc">신청 접수를 위해 아래 내용에 동의가 필요합니다.</p>
+      <div class="terms">
+        <dl>
+          <dt>수집 주체</dt><dd>인하대학교 X 한솔아카데미 신청 담당자</dd>
+          <dt>수집 항목</dt><dd>이름, 생년월일, 연락처, 한솔아카데미 아이디, 신청 내역, 주소</dd>
+          <dt>이용 목적</dt><dd>동계특강 신청 접수, 수강 등록, 교재 배송 및 안내 연락</dd>
+          <dt>제공</dt><dd>수강 등록과 교재 발송을 위해 한솔아카데미에 전달됩니다.</dd>
+          <dt>보관 기간</dt><dd>동계특강 신청 및 수강 등록 완료 후 파기</dd>
+        </dl>
+        <p style="margin:10px 0 0">동의를 거부할 수 있으나, 거부 시 신청이 접수되지 않습니다.</p>
+      </div>
+      <label class="consent"><input type="checkbox" id="consent"><span>위 내용을 확인했으며 개인정보 수집 · 이용에 동의합니다.</span></label>
+      <div class="msg" id="consentMsg">동의에 체크해 주세요.</div>
+    </section>
+
+    <div class="alert" id="alert" role="alert"></div>
+  </form>
+
+  <section class="card done" id="done" hidden tabindex="-1">
+    <div class="ico"></div>
+    <h2>신청이 접수되었습니다</h2>
+    <p class="desc" id="doneName"></p>
+    <ul class="sum-list" id="doneList"></ul>
+    <div class="sum-total"><span class="t">결제 예정 금액</span><span class="v" id="doneTotal"></span></div>
+    <p class="hint warn" style="text-align:left;margin-top:18px">한솔아카데미 홈페이지 회원 정보의 휴대폰 번호가 신청서에 적은 번호와 같은지 한 번 더 확인해 주세요.</p>
+  </section>
+
+  <footer>인하대학교 X 한솔아카데미 동계특강</footer>
+</main>
+
+<div class="bar" id="bar">
+  <div class="wrap">
+    <div class="amt"><small>결제 예정 금액</small><strong id="barTotal">0원</strong><s id="barList"></s></div>
+    <button type="submit" form="form" class="btn" id="submitBtn">신청하기</button>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="box">
+    <span class="badge" id="mBadge"></span>
+    <h4 id="mTitle"></h4>
+    <p id="mBody"></p>
+    <div class="cmp" id="mCmp"></div>
+    <button type="button" class="btn" id="mOk">확인</button>
+  </div>
+</div>
+
+<div class="modal" id="postModal" role="dialog" aria-modal="true" aria-label="우편번호 찾기">
+  <div class="post-box">
+    <header><span>우편번호 찾기</span><button type="button" id="postClose" aria-label="닫기">×</button></header>
+    <div id="postEmbed"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   설정: 구글 Apps Script 웹 앱 주소를 아래 따옴표 안에 붙여넣으세요.
+   예) "https://script.google.com/macros/s/AKfy.../exec"
+   ============================================================ */
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyOlg1p98HtFgqxTyq0_XpS2hhUzTQSEtIjeL4lMEFLHG269qBlowBBOzNySVtsHZ5juw/exec";
+
+/* 가격표: [정가, 할인가] · w=필기, p=실기, both=필/실기 패키지 */
+const SUBJECTS = [
+  { id:"arch", name:"건축기사",
+    offline:{ both:[825000,500000], w:[480000,300000], p:[345000,200000] },
+    online: { both:[520100,410000], w:[401500,210000], p:[307700,200000] },
+    book:   { w:[135000,108000], p:[53000,42400] } },
+  { id:"equip", name:"건축설비기사",
+    online: { both:[454500,386325], w:[292300,248455], p:[273100,232135] },
+    book:   { w:[47000,37600], p:[59000,47200] } },
+  { id:"csafe", name:"건설안전기사",
+    online: { both:[403000,342550], w:[235600,200260], p:[197400,167790] },
+    book:   { w:[84000,67200], p:[86000,68800] } },
+  { id:"isafe", name:"산업안전기사",
+    online: { both:[403900,343315], w:[236500,201025], p:[197400,167790] },
+    book:   { w:[85000,68000], p:[86000,68800] } }
+];
+const MODE_LABEL = { none:"선택 안 함", offline:"오프라인", online:"온라인", book:"교재만" };
+const MODE_NOTE = {
+  offline:"오프라인 + 온라인 + 교재",
+  online:"온라인 + 교재",
+  book:"교재만"
+};
+const SCOPE_LABEL = { both:"필/실기", w:"필기", p:"실기" };
+const LECTURE = m => m === "offline" || m === "online";
+const CONFLICT = { offline:"online", online:"offline" };   // 한 과목에서 오프라인과 온라인은 함께 고를 수 없음
+
+/* 과목마다 필기(w)·실기(p)의 신청 형태를 따로 고릅니다: none | offline | online | book */
+const state = {};
+SUBJECTS.forEach(s => state[s.id] = { w:"none", p:"none" });
+
+const $ = id => document.getElementById(id);
+const won = n => n.toLocaleString("ko-KR") + "원";
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+const isPkg = st => st.w === st.p && LECTURE(st.w);   // 필기·실기를 같은 강의 형태로 고르면 필/실기 패키지
+const partLabel = (k, m) => `${SCOPE_LABEL[k]} ${MODE_LABEL[m]}`;
+
+/* 과목 하나의 선택 결과 → {label, list, sale, ship, pkg} 또는 null */
+function pick(s) {
+  const st = state[s.id];
+  if (st.w === "none" && st.p === "none") return null;
+  if (isPkg(st)) {
+    const t = s[st.w].both;
+    return { label: `${MODE_LABEL[st.w]} 강의 필/실기`, list: t[0], sale: t[1], ship: st.w !== "offline", pkg: true };
+  }
+  const ks = ["w","p"].filter(k => st[k] !== "none");
+  return { label: ks.map(k => partLabel(k, st[k])).join(" + "),
+           list: ks.reduce((a,k) => a + s[st[k]][k][0], 0), sale: ks.reduce((a,k) => a + s[st[k]][k][1], 0),
+           ship: ks.some(k => st[k] !== "offline"), pkg: false };
+}
+function totals() {
+  const rows = [];
+  SUBJECTS.forEach(s => { const p = pick(s); if (p) rows.push({ id:s.id, name:s.name, ...p }); });
+  return { rows, list: rows.reduce((a,r) => a + r.list, 0), sale: rows.reduce((a,r) => a + r.sale, 0), ship: rows.some(r => r.ship) };
+}
+
+/* ---------- 과목 카드 ---------- */
+const priceHTML = price => {
+  const off = Math.round((1 - price[1] / price[0]) * 100);
+  return `<span class="list">${won(price[0])}</span><span class="off">${off}%</span><span class="sale">${won(price[1])}</span>`;
+};
+function subjectHTML(s) {
+  const st = state[s.id], p = pick(s), pkg = isPkg(st);
+  const modes = ["none"].concat(s.offline ? ["offline"] : [], ["online","book"]);
+  let h = `<div class="subject${p ? " on" : ""}">
+    <div class="subject-head"><h3>${s.name}</h3><div class="picked">${p ? `<b>${won(p.sale)}</b>` : ""}</div></div>`;
+  ["w","p"].forEach(k => {
+    const m = st[k];
+    h += `<div class="scope">
+      <div class="scope-top"><span class="scope-name">${SCOPE_LABEL[k]}</span>${
+        m !== "none" && !pkg ? `<span class="scope-price">${priceHTML(s[m][k])}</span>` : ""}</div>
+      <div class="seg" role="group" aria-label="${s.name} ${SCOPE_LABEL[k]} 신청 형태">` +
+      modes.map(x => {
+        const off = CONFLICT[x] && st[k === "w" ? "p" : "w"] === CONFLICT[x];
+        return `<button type="button" data-s="${s.id}" data-k="${k}" data-m="${x}" aria-pressed="${m === x}"${off ? ` disabled title="${MODE_LABEL[CONFLICT[x]]}과 함께 선택할 수 없습니다"` : ""}>${MODE_LABEL[x]}</button>`;
+      }).join("") +
+      `</div>${m !== "none" ? `<p class="mode-note">구성: <b>${MODE_NOTE[m]}</b></p>` : (s.offline && LECTURE(st[k === "w" ? "p" : "w"]) ? `<p class="mode-note">오프라인과 온라인은 함께 선택할 수 없습니다.</p>` : "")}</div>`;
+  });
+  if (pkg) h += `<div class="pkg"><span>필/실기 패키지 적용 · ${MODE_NOTE[st.w]}</span><span class="scope-price">${priceHTML(s[st.w].both)}</span></div>`;
+  return h + `</div>`;
+}
+function render(focusSel) {
+  $("subjects").innerHTML = SUBJECTS.map(subjectHTML).join("");
+  if (focusSel) { const el = $("subjects").querySelector(focusSel); if (el) el.focus(); }
+  const t = totals();
+
+  $("sumList").innerHTML = t.rows.map(r => `<li><span>${r.name} · ${esc(r.label)}</span><span>${won(r.sale)}</span></li>`).join("");
+  $("sumEmpty").hidden = t.rows.length > 0;
+  $("sumTotal").textContent = won(t.sale);
+  $("sumSave").textContent = t.rows.length ? `정가 ${won(t.list)}에서 ${won(t.list - t.sale)} 할인` : "";
+  $("barTotal").textContent = won(t.sale);
+  $("barList").textContent = t.rows.length ? won(t.list) : "";
+
+  if (t.rows.length) $("itemsMsg").classList.remove("show");
+}
+
+$("subjects").addEventListener("click", e => {
+  const b = e.target.closest("button[data-s]");
+  if (!b) return;
+  const s = SUBJECTS.find(x => x.id === b.dataset.s), st = state[s.id], k = b.dataset.k, m = b.dataset.m;
+  if (st[k] === m || b.disabled) return;
+  const before = isPkg(st);
+  st[k] = m;
+  render(`[data-s="${s.id}"][data-k="${k}"][data-m="${m}"]`);
+  if (!before && isPkg(st)) showUpgrade(s, st.w);   // 필기·실기를 같은 강의로 고름 → 패키지로 변경
+});
+
+/* ---------- 패키지 자동 변경 안내 ---------- */
+let lastFocus = null;
+function showUpgrade(s, mode) {
+  const t = s[mode], sep = t.w[1] + t.p[1], pkg = t.both[1], diff = sep - pkg;
+  const kind = `${s.name} ${MODE_LABEL[mode]} 강의`;
+  if (diff > 0) {
+    $("mBadge").textContent = won(diff) + " 절약";
+    $("mTitle").textContent = "더 높은 할인율을 적용했어요";
+    $("mBody").textContent = `${kind}의 필기와 실기를 함께 신청하셔서 할인 폭이 더 큰 필/실기 패키지로 변경했습니다.`;
+    $("mCmp").innerHTML = `<div><span>필기 + 실기 따로</span><span>${won(sep)}</span></div>
+      <div><span>필/실기 패키지</span><span>${won(pkg)}</span></div>
+      <div class="save"><span>절약 금액</span><span>− ${won(diff)}</span></div>`;
+  } else {
+    $("mBadge").textContent = "필/실기 패키지";
+    $("mTitle").textContent = "필/실기 패키지로 묶었어요";
+    $("mBody").textContent = `${kind}의 필기와 실기를 함께 신청하셔서 필/실기 패키지로 정리했습니다. 금액은 따로 신청할 때와 같습니다.`;
+    $("mCmp").innerHTML = `<div><span>필/실기 패키지</span><span>${won(pkg)}</span></div>`;
+  }
+  lastFocus = document.activeElement;
+  $("modal").classList.add("show");
+  $("mOk").focus();
+}
+function closeModal() { $("modal").classList.remove("show"); if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+$("mOk").addEventListener("click", closeModal);
+$("modal").addEventListener("click", e => { if (e.target === $("modal")) closeModal(); });
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if ($("modal").classList.contains("show")) closeModal();
+  $("postModal").classList.remove("show");
+});
+
+/* ---------- 입력 형식 ---------- */
+$("birth").addEventListener("input", e => {
+  const d = e.target.value.replace(/\D/g, "").slice(0, 8);
+  e.target.value = d.length > 6 ? `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6)}` : d.length > 4 ? `${d.slice(0,4)}-${d.slice(4)}` : d;
+});
+$("phone").addEventListener("input", e => {
+  const d = e.target.value.replace(/\D/g, "").slice(0, 11);
+  e.target.value = d.length > 7 ? `${d.slice(0,3)}-${d.slice(3, d.length === 10 ? 6 : 7)}-${d.slice(d.length === 10 ? 6 : 7)}`
+                 : d.length > 3 ? `${d.slice(0,3)}-${d.slice(3)}` : d;
+});
+$("zip").addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5); });
+document.querySelectorAll(".field input").forEach(i => i.addEventListener("input", () => i.closest(".field").classList.remove("bad")));
+$("consent").addEventListener("change", () => $("consentMsg").classList.remove("show"));
+
+function validBirth(v) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+  if (!m) return false;
+  const y = +m[1], mo = +m[2], d = +m[3], dt = new Date(y, mo - 1, d);
+  return dt.getFullYear() === y && dt.getMonth() === mo - 1 && dt.getDate() === d && y >= 1940 && dt < new Date();
+}
+
+/* ---------- 우편번호 찾기 (카카오 우편번호 서비스) ---------- */
+let postLoading = null;
+function loadPostcode() {
+  if (window.daum && window.daum.Postcode) return Promise.resolve();
+  if (!postLoading) postLoading = new Promise((ok, fail) => {
+    const sc = document.createElement("script");
+    sc.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    sc.onload = ok; sc.onerror = () => { postLoading = null; fail(); };
+    document.head.appendChild(sc);
+  });
+  return postLoading;
+}
+$("zipBtn").addEventListener("click", () => {
+  loadPostcode().then(() => {
+    $("postEmbed").innerHTML = "";
+    new daum.Postcode({
+      width:"100%", height:"100%",
+      oncomplete(d) {
+        $("zip").value = d.zonecode;
+        $("addr").value = d.roadAddress || d.jibunAddress || d.address;
+        $("postModal").classList.remove("show");
+        $("f-addr").classList.remove("bad");
+        $("addr2").focus();
+      }
+    }).embed($("postEmbed"));
+    $("postModal").classList.add("show");
+  }).catch(() => { $("zipHint").hidden = false; $("zip").focus(); });
+});
+$("postClose").addEventListener("click", () => $("postModal").classList.remove("show"));
+
+/* ---------- 제출 ---------- */
+function showAlert(t) { const a = $("alert"); a.textContent = t; a.classList.toggle("show", !!t); }
+
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  showAlert("");
+  const t = totals();
+  const v = id => $(id).value.trim();
+  const bad = [];
+  const mark = (fid, isBad) => { $(fid).classList.toggle("bad", isBad); if (isBad) bad.push($(fid)); };
+
+  mark("f-name", v("name").length < 2);
+  mark("f-birth", !validBirth(v("birth")));
+  mark("f-phone", !/^01\d-\d{3,4}-\d{4}$/.test(v("phone")));
+  mark("f-hid", v("hid").length < 2);
+  if (!t.rows.length) { $("itemsMsg").classList.add("show"); bad.push($("sec-items")); }
+  mark("f-addr", !/^\d{5}$/.test(v("zip")) || v("addr").length < 5);
+  if (!$("consent").checked) { $("consentMsg").classList.add("show"); bad.push($("sec-consent")); }
+
+  if (bad.length) {
+    bad[0].scrollIntoView({ behavior:"smooth", block:"center" });
+    const inp = bad[0].querySelector("input"); if (inp) inp.focus({ preventScroll:true });
+    return;
+  }
+  if (!SHEET_ENDPOINT) {
+    showAlert("아직 신청 접수 설정이 끝나지 않아 제출할 수 없습니다. (관리자: index.html의 SHEET_ENDPOINT에 Apps Script 주소를 넣어 주세요.)");
+    return;
+  }
+
+  const items = {};
+  t.rows.forEach(r => { items[r.id] = { w: state[r.id].w, p: state[r.id].p }; });
+  const payload = {
+    name: v("name"), birth: v("birth"), phone: v("phone"), hansolId: v("hid"), items,
+    zip: v("zip"), addr: v("addr"), addr2: v("addr2"),
+    consent: true, website: $("website").value
+  };
+
+  const btn = $("submitBtn");
+  btn.disabled = true; btn.textContent = "접수 중…";
+  try {
+    // text/plain 으로 보내야 Apps Script 웹 앱이 사전 요청(preflight) 없이 받습니다.
+    const res = await fetch(SHEET_ENDPOINT, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "접수 실패");
+    $("doneName").textContent = `${payload.name} 님의 신청 내역입니다.`;
+    $("doneList").innerHTML = $("sumList").innerHTML;
+    $("doneTotal").textContent = won(t.sale);
+    $("form").hidden = true; $("bar").hidden = true; $("done").hidden = false;
+    document.body.style.paddingBottom = "0";
+    window.scrollTo({ top: 0 });
+    $("done").focus({ preventScroll:true });
+  } catch (err) {
+    const known = err && err.message && /[가-힣]/.test(err.message) && err.message !== "접수 실패";
+    showAlert(known ? err.message : "신청이 접수되지 않았습니다. 잠시 후 다시 시도해 주세요. 계속 안 되면 담당자에게 알려 주세요.");
+    btn.disabled = false; btn.textContent = "신청하기";
+    $("alert").scrollIntoView({ behavior:"smooth", block:"center" });
+  }
+});
+
+render();
+</script>
+</body>
+</html>
